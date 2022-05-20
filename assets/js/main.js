@@ -16,22 +16,24 @@
 // };
 const divElement = document.querySelector('#mainContainer');
 const searchElement = document.querySelector('#search');
+const select = document.querySelector('#selectTypes');
+
 let pokemones = [];
+let pokeTypes = ["Grass","Poison","Fire","Flying","Water","Bug","Normal","Poison","Electric","Ground","Fighting","Psychic","Rock","Ice"];
 const main = () => {
     fetch('./api/pokedex.json')
         .then(response => response.json())
         .then(data =>   normalizeData(data))
         .then(pokemones => pokemones.forEach(renderCards))
-        
-       
 };
 const normalizeData = (data) => {
     data.pokemon.forEach(element => {
-        const { name, img, num } = element;
+        const { name, img, num, type } = element;
         const pokemon = {
             text: name,
             photo: img,
-            num: num
+            num: num,
+            type: type.join(', ')
         };
         pokemones.push(pokemon);
         
@@ -46,7 +48,8 @@ const renderCards = (element) => {
     const img = document.createElement('img');
     const divBody = document.createElement('div');
     const title = document.createElement('h5');
-    const info = document.createElement('p');
+    const num = document.createElement('p');
+    const type = document.createElement('p');
 
     divCard.classList.add('card');
     divCard.classList.add('col');
@@ -55,7 +58,8 @@ const renderCards = (element) => {
     img.classList.add('card-img-top');
     divBody.classList.add('card-body');
     title.classList.add('card-title');
-    info.classList.add('card-text');
+    num.classList.add('card-text');
+    type.classList.add('card-text');
 
     let photo = ''
     if (element?.photo) {
@@ -66,14 +70,19 @@ const renderCards = (element) => {
     
     img.setAttribute('src', photo);
     title.innerHTML = element.text;
-    info.innerHTML = '#'+ element.num;
+    num.innerHTML = 'Num: #'+ element.num;
+    type.innerHTML = 'Type: '+ element.type;
+  
 
 
     divElement.appendChild(divCard);
     divCard.appendChild(img);
     divCard.appendChild(divBody);
     divBody.appendChild(title);
-    divBody.appendChild(info);
+    divBody.appendChild(num);
+    divBody.appendChild(type);
+    
+
     
 }
 
@@ -96,5 +105,27 @@ const searchingWithFilter = (searchingText) => {
     });
     return pokemonesFiltered;
 };
+
+const selectDraw = () =>{
+    for(let x=0; x<pokeTypes.length; x++){
+        const selectOption = document.createElement('option');
+        selectOption.text= pokeTypes[x];
+        selectOption.value= (pokeTypes[x]).toLocaleLowerCase();;
+        select.appendChild(selectOption);
+    }
+}
+selectDraw();
+
+select.addEventListener('change', (event) => {
+    
+    const typeP = event?.target?.value || '';
+    const newData = pokemones.filter( (element) => {
+        const pokemonType = (element.type).toLocaleLowerCase();
+        console.log(pokemonType);
+        return pokemonType.includes(typeP);
+    });
+    cleanView();
+    newData.forEach(renderCards);
+})
 
 main();

@@ -18,15 +18,22 @@
               </a>
             </div>
         </nav>
-        <div class="container">
+        <div class="container ">
             <h2 class="text-center m-3">¿Cúal es tu pokemón favorito?</h2>
             <h4 class="text-center m-3">Encuentrálo aquí</h4>
-            <div class="container-fluid w-25">
+            <div class="container-fluid w-25 align-items-center justify-content-center">
                 <form class="d-flex">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
+                  <input class="form-control m-2" type="search" placeholder="Search" aria-label="Search" id="search">
+                  <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
                 </form>
+                <select class="form-select m-2" aria-label="Default select example" id="selectTypes">
+                  <option selected>Select by type </option>
+                 
+                </select>
             </div>
+            
+            
+
         </div>
 
         <div class="row row-cols-6 m-5 align-items-center justify-content-center" id="mainContainer">
