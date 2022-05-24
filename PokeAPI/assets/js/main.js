@@ -19,7 +19,7 @@ const searchElement = document.querySelector('#search');
 const select = document.querySelector('#selectTypes');
 
 let pokemones = [];
-let pokeTypes = ["Grass","Poison","Fire","Flying","Water","Bug","Normal","Poison","Electric","Ground","Fighting","Psychic","Rock","Ice"];
+let pokeTypes = ["Grass","Poison","Fire","Flying","Water","Bug","Normal","Electric","Ground","Fighting","Psychic","Rock","Ice"];
 const main = () => {
     fetch('./api/pokedex.json')
         .then(response => response.json())
@@ -93,6 +93,7 @@ const cleanView = () => {
 searchElement.addEventListener('keyup', (event) => {
     const inputText = event?.target?.value.toLocaleLowerCase() || '';
     cleanView();
+    
     // const contactsFiltered = searchingWithFor(inputText);
     const pokemonesFiltered = searchingWithFilter(inputText);
     pokemonesFiltered.forEach(renderCards);
@@ -125,6 +126,7 @@ select.addEventListener('change', (event) => {
         return pokemonType.includes(typeP);
     });
     cleanView();
+    searchElement.value='';
     newData.forEach(renderCards);
 })
 
